@@ -1,33 +1,40 @@
 import React, { Component } from "react";
 class Counter extends Component {
-  state = {
-    value: this.props.value,
-    tags: ["tag1", "tag2", "tag3", "tg"],
-  };
   render() {
     return (
-      <div className="">
-        <span className={this.getBadgeClass()}>{this.formatCount()}</span>
+      <div className="row">
+        <div className="col-1">
+          <span className={this.getBadgeClass()}>{this.formatCount()}</span>
+        </div>
         {/* <span>{this.formatCount()}</span> */}
-        <button
-          onClick={this.decreamentEvent}
-          className="btn btn-secondary btn-sm m-2"
-        >
-          -
-        </button>
-        <button
-          onClick={this.increamentEvent}
-          className="btn btn-secondary btn-sm"
-        >
-          +
-        </button>
+        <div className="col">
+          <button
+            onClick={() => this.props.onIncrement(this.props.counter)}
+            className="btn btn-secondary btn-sm"
+          >
+            +
+          </button>
+          <button
+            onClick={() => this.props.onDecrement(this.props.counter)}
+            className="btn btn-secondary btn-sm m-2"
+            disabled={this.props.counter.value === 0 ? "disabled" : ""}
+          >
+            -
+          </button>
+          <button
+            onClick={() => this.props.onDelete(this.props.counter.id)}
+            className="btn btn-danger btn-sm m-2"
+          >
+            Delete
+          </button>
+        </div>
       </div>
     );
   }
 
   getBadgeClass() {
     let classes = "badge m-2 ";
-    const { value } = this.state;
+    const { value } = this.props.counter;
     if (value === 0) {
       classes += "bg-warning text-dark";
     } else if (value < 0) {
@@ -37,14 +44,8 @@ class Counter extends Component {
     }
     return classes;
   }
-  increamentEvent = () => {
-    this.setState({ value: this.state.value + 1 });
-  };
-  decreamentEvent = () => {
-    this.setState({ value: this.state.value - 1 });
-  };
   formatCount() {
-    const { value } = this.state;
+    const { value } = this.props.counter;
     return value === 0 ? "Zero" : value;
   }
 }

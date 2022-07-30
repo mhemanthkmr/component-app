@@ -13,23 +13,51 @@ class Counters extends Component {
       { id: 8, value: -1 },
     ],
   };
-  //   getBadgeClass() {
-  //     let classes = "badge m-2 ";
-  //     const { value } = this.state;
-  //     if (value === 0) {
-  //       classes += "bg-warning text-dark";
-  //     } else if (value < 0) {
-  //       classes += "bg-danger";
-  //     } else {
-  //       classes += "bg-primary";
-  //     }
-  //     return classes;
-  //   }
+  handleIncrement = (counter) => {
+    const counters = [...this.state.counters];
+    console.log(this.state.counters);
+    const index = counters.indexOf(counter);
+    counters[index] = { ...counter };
+    counters[index].value++;
+    this.setState({ counters });
+  };
+  handleDecrement = (counter) => {
+    const counters = [...this.state.counters];
+    const index = counters.indexOf(counter);
+    counters[index] = { ...counter };
+    counters[index].value--;
+    this.setState({ counters });
+  };
+  handleDelete = (counterId) => {
+    const counters = this.state.counters.filter((c) => c.id !== counterId);
+    this.setState({ counters });
+  };
+  handleReset = () => {
+    const counters = this.state.counters.map((m) => {
+      m.value = 0;
+      return m;
+    });
+    this.setState({ counters });
+  };
+
   render() {
     return (
       <div>
+        <button
+          onClick={this.handleReset}
+          className="btn btn-primary btn-sm m-2"
+        >
+          Reset
+        </button>
         {this.state.counters.map((counter) => (
-          <Counter key={counter.id} value={counter.value}></Counter>
+          <Counter
+            onDecrement={this.handleDecrement}
+            onIncrement={this.handleIncrement}
+            onDelete={this.handleDelete}
+            key={counter.id}
+            value={counter.value}
+            counter={counter}
+          ></Counter>
         ))}
       </div>
     );
