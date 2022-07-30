@@ -10,14 +10,14 @@ class Counter extends Component {
         <div className="col">
           <button
             onClick={() => this.props.onIncrement(this.props.counter)}
-            className="btn btn-secondary btn-sm"
+            className="btn btn-secondary btn-sm m-2"
           >
             +
           </button>
           <button
             onClick={() => this.props.onDecrement(this.props.counter)}
             className="btn btn-secondary btn-sm m-2"
-            disabled={this.props.counter.value === 0 ? "disabled" : ""}
+            disabled={this.props.counter.value <= 0 ? "disabled" : ""}
           >
             -
           </button>
@@ -25,7 +25,7 @@ class Counter extends Component {
             onClick={() => this.props.onDelete(this.props.counter.id)}
             className="btn btn-danger btn-sm m-2"
           >
-            Delete
+            X
           </button>
         </div>
       </div>
@@ -33,7 +33,7 @@ class Counter extends Component {
   }
 
   getBadgeClass() {
-    let classes = "badge m-2 ";
+    let classes = "badge ";
     const { value } = this.props.counter;
     if (value === 0) {
       classes += "bg-warning text-dark";
